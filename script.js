@@ -61,6 +61,60 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+// BUENA PRÁCTICA TRABAJAR CON LOS DATOS DE UNA FUNCION
+// QUE PASAR LAS VARIABLES GLOBALES
+// displayMovements -> Devuelve un DOM Element
+// const displayMovements = function(movements){
+//   // .innerHTML no solo devuelve texto sino que
+//   // devuelve todo el elemento HTML. Es este
+//   // caso, lo devuelve en blanco
+//   containerMovements.innerHTML = "";
+
+//   movements.forEach(function(mov, i){
+//     // Saber si es un deposito o retiro
+//     // movements.iteration > 0 ? "deposit" : "withdrawal"
+//     const type = mov > 0 ? "deposit" : "withdrawal";
+    
+//     // Con template literal se crean
+//     // plantillas HTML y luego
+//     // la insertamos con
+//     // DOM_Element.insertAdjacentHTML('ubicacion', HTML_String)
+//     const html = `
+//     <div class="movements__row">
+//       <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+//       <div class="movements__value">${mov}</div>
+//     </div>
+//     `;
+//     containerMovements.insertAdjacentHTML("afterbegin", html);
+//   });
+// };
+// displayMovements(account1.movements);
+
+/*
++*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+      C H A L L E N G U E
++*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+*/
+
+const checkDogs = function(dogsJulia, dogsKate) {
+  const dogsJuliaCorrected = dogsJulia.slice();
+  dogsJuliaCorrected.splice(0, 1);
+  dogsJuliaCorrected.splice(-2);
+
+  const dogs = dogsJuliaCorrected.concat(dogsKate);
+  console.log(dogs);
+
+  dogs.forEach(function(dog, i){
+    if(dog >= 3){
+      console.log(`Dog number ${i + 1} is an adult, and is ${dog} years old`);
+    } else {
+      console.log(`Dog number ${i + 1} is still a puppy`);
+    }
+  });
+};
+// checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -206,7 +260,6 @@ movements.forEach(function (movement, index, array) {
             F O R E A C H 
     C O N  "M A P S"  Y  "S E T S"
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
-*/
 // MAP
 const currencies = new Map([
   ['USD', 'United States dollar'],
@@ -225,3 +278,4 @@ console.log(currenciesUnique);
 currenciesUnique.forEach(function(value, key, map){
   console.log(`${key}: ${value}`); // Iteraciones de string
 });
+  */
