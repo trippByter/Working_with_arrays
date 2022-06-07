@@ -111,8 +111,6 @@ const createUserNames =  (accs) => {
 createUserNames(accounts);
 
 
-
-
 /*
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
     T R A B A J A N D O
@@ -147,7 +145,7 @@ console.log(accounts);
 
 /*
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
-      C H A L L E N G U E
+    C H A L L E N G U E  N°1
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
 
 const checkDogs = function(dogsJulia, dogsKate) {
@@ -286,9 +284,9 @@ console.log("Imaynallan".at(-1)); // n
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
       I N M U T A B L E 
         ".F O R E A C H"
-
-NO FUNCIONAN EL "BREAK", "CONTINUE"
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+NO FUNCIONAN EL "BREAK", "CONTINUE"
+
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 console.log("*** METODO FOR-OF ***");
@@ -410,7 +408,6 @@ cur = current ELEMENT
 i   = current INDEX
 arr = array
 ...}, 0 = Zero -> accumulator's initial value
-*/
 console.log("+++ R3DUCE +++");
 console.log(movements);
 const balance = movements.reduce((acc, cur) => acc + cur, 0);
@@ -426,3 +423,28 @@ console.log(balance2);
 // y lo compara con mov
 const max = movements.reduce((acc, mov) => (acc > mov) ? acc : mov, movements[0]); 
 console.log(max);
+*/
+
+/*
++*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+    C H A L L E N G U E  N°2
++*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+TEST DATA 1: [5, 2, 4, 1, 15, 8, 3]
+TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
+*/
+
+// Pasamos array de edades de perros y las 
+// transformamos a edades humanas
+const calcAverageHumanAge = function(ages){
+  const humanAges = ages.map(age => age <= 2 ? 2* age : 16 + age * 4);
+  // Solo mayores de edad
+  const adults = humanAges.filter(age => age >= 18);
+  console.log(humanAges);
+  console.log(adults);
+  // Calulamos la media(average)
+  const average = adults.reduce((acc, age, i, arr) => acc + age  / arr.length, 0); 
+  return average
+};
+const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+console.log(avg1, avg2);
