@@ -61,8 +61,9 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-// BUENA PRÁCTICA TRABAJAR CON LOS DATOS DE UNA FUNCION
-// QUE PASAR LAS VARIABLES GLOBALES
+// BUENA PRÁCTICA TRABAJAR LAS VARIABLES GLOBALES,
+// PASADAS COMO DATOS DE UNA FUNCION Y NO 
+// DE MANERA DIRECTA
 // displayMovements -> Devuelve un DOM Element
 const displayMovements = function(movements){
   // .innerHTML no solo devuelve texto sino que
@@ -89,6 +90,29 @@ const displayMovements = function(movements){
   });
 };
 displayMovements(account1.movements);
+
+
+// Actualización de balance de "account1"
+const calcDisplayBalance = function(movements){
+  const balance = movements.reduce((acc, mov) => acc + mov, 0)
+  labelBalance.textContent = `${balance} EUR`
+};
+calcDisplayBalance(account1.movements);
+
+const createUserNames =  (accs) => {
+  accs.forEach((acc) => {
+    acc.username = acc.owner
+      .toLowerCase() 
+      .split(" ") 
+      .map(name => name[0]) 
+      .join(""); 
+  });
+}; 
+createUserNames(accounts);
+
+
+
+
 /*
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
     T R A B A J A N D O
@@ -155,9 +179,9 @@ const currencies = new Map([
   ['EUR', 'Euro'],
   ['GBP', 'Pound sterling'],
 ]);
-/*
+*/
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
@@ -347,14 +371,11 @@ const eurToUsd = 1.1;
     console.log(movementsDescriptions);
 */
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
 /*
 +*+*+*+*+*+*+*+*+*+*+*+*+*
       I N M U T A B L E 
         F I L T E R
 +*+*+*+*+*+*+*+*+*+*+*+*+*
-*/
 
 // Filter out the negative values
 // return a boolean value
@@ -372,3 +393,36 @@ console.log(depositsFor);
 const withdrawals = movements.filter((mov) => mov < 0);
 // console.log(movements);
 console.log(withdrawals);
+*/
+
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+/*
++*+*+*+*+*+*+*+*+*+*+*+*+*
+      I N M U T A B L E
+        R E D U C E
++*+*+*+*+*+*+*+*+*+*+*+*+*
+Return a value, not array
+".reduce(function(acc, i, arr))"
+acc = accumulator -> like a SNOWBALL
+cur = current ELEMENT
+i   = current INDEX
+arr = array
+...}, 0 = Zero -> accumulator's initial value
+*/
+console.log("+++ R3DUCE +++");
+console.log(movements);
+const balance = movements.reduce((acc, cur) => acc + cur, 0);
+console.log(balance); // Number: 3840
+
+console.log("+++ F0R +++");
+let balance2 = 0;
+for(const mov of movements) balance2 += mov;
+console.log(balance2);
+
+// Maximo valor del movements - 3000
+// El acc hace un seguimiento al valor maximo actual
+// y lo compara con mov
+const max = movements.reduce((acc, mov) => (acc > mov) ? acc : mov, movements[0]); 
+console.log(max);
