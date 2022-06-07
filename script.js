@@ -97,7 +97,6 @@ displayMovements(account1.movements);
 Cuando se anidan funciones, es mejor 
 separarlas por parentesis
 const username = user.toLowerCase().split(" ").map(name => name[0]).join("");
-*/
 
 const user = "Steven Thomas Williams"; 
 // Modificamos array original "accounts".
@@ -119,6 +118,7 @@ const createUserNames =  (accs) => {
 }; 
 createUserNames(accounts);
 console.log(accounts);
+*/
 
 
 /*
@@ -345,4 +345,30 @@ const eurToUsd = 1.1;
     );
     // Devuelve array de strings
     console.log(movementsDescriptions);
-    */
+*/
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+/*
++*+*+*+*+*+*+*+*+*+*+*+*+*
+      I N M U T A B L E 
+        F I L T E R
++*+*+*+*+*+*+*+*+*+*+*+*+*
+*/
+
+// Filter out the negative values
+// return a boolean value
+// return iteration if value is greater than zero
+const deposits = movements.filter((mov) => mov > 0);
+console.log(movements);
+console.log(deposits);
+
+// for method
+const depositsFor = []
+for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor);
+
+
+const withdrawals = movements.filter((mov) => mov < 0);
+// console.log(movements);
+console.log(withdrawals);
