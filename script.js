@@ -64,31 +64,62 @@ const inputClosePin = document.querySelector('.form__input--pin');
 // BUENA PRÁCTICA TRABAJAR CON LOS DATOS DE UNA FUNCION
 // QUE PASAR LAS VARIABLES GLOBALES
 // displayMovements -> Devuelve un DOM Element
-// const displayMovements = function(movements){
-//   // .innerHTML no solo devuelve texto sino que
-//   // devuelve todo el elemento HTML. Es este
-//   // caso, lo devuelve en blanco
-//   containerMovements.innerHTML = "";
+const displayMovements = function(movements){
+  // .innerHTML no solo devuelve texto sino que
+  // devuelve todo el elemento HTML. En este
+  // caso, lo devuelve en blanco
+  containerMovements.innerHTML = "";
 
-//   movements.forEach(function(mov, i){
-//     // Saber si es un deposito o retiro
-//     // movements.iteration > 0 ? "deposit" : "withdrawal"
-//     const type = mov > 0 ? "deposit" : "withdrawal";
+  movements.forEach(function(mov, i){
+    // Saber si es un deposito o retiro
+    // movements.iteration > 0 ? "deposit" : "withdrawal"
+    const type = mov > 0 ? "deposit" : "withdrawal";
     
-//     // Con template literal se crean
-//     // plantillas HTML y luego
-//     // la insertamos con
-//     // DOM_Element.insertAdjacentHTML('ubicacion', HTML_String)
-//     const html = `
-//     <div class="movements__row">
-//       <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-//       <div class="movements__value">${mov}</div>
-//     </div>
-//     `;
-//     containerMovements.insertAdjacentHTML("afterbegin", html);
-//   });
-// };
-// displayMovements(account1.movements);
+    // Con template literal se crean
+    // plantillas HTML y luego
+    // la insertamos con
+    // DOM_Element.insertAdjacentHTML('ubicacion', HTML_String)
+    const html = `
+    <div class="movements__row">
+      <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+      <div class="movements__value">${mov}</div>
+    </div>
+    `;
+    containerMovements.insertAdjacentHTML("afterbegin", html);
+  });
+};
+displayMovements(account1.movements);
+/*
++*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+    T R A B A J A N D O
+      C O N    M A P 
++*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+Cuando se anidan funciones, es mejor 
+separarlas por parentesis
+const username = user.toLowerCase().split(" ").map(name => name[0]).join("");
+*/
+
+const user = "Steven Thomas Williams"; 
+// Modificamos array original "accounts".
+// Usamos métodos mutables - forEach y 
+// añadimos la key "username"
+const createUserNames =  (accs) => {
+  // Por eso usamos el método forEach.
+  accs.forEach((acc) => {
+    // Agregamos la key "username". El
+    // value es las iniciales del nombre
+    acc.username = acc.owner
+      .toLowerCase() // Str minu: "steven thomas williams"
+      .split(" ") // Arr: ['steven', 'thomas', 'williams']
+      .map(name => name[0]) // Arr: ['s', 't', 'w']
+      .join(""); // Str: "stw"
+  });
+  // Cuando se modifica el array original,
+  // no se retorna nada.
+}; 
+createUserNames(accounts);
+console.log(accounts);
+
 
 /*
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
@@ -290,29 +321,28 @@ Con MAP creamos un array con una sola función
 Con FOR, TENEMOS que, antes, crear el array
 Son diferentes filosofías o paradigmas
 MAP es más de programación funcional
-*/
-
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const eurToUsd = 1.1;
 
 // const movementsUSD = movements.map(function(mov){
-//   return mov * eurToUsd;
-// });
-const movementsUSD = movements.map(mov => mov * eurToUsd);
-console.log(movements);
-console.log(movementsUSD);
-
-// I D E M
-const movementsUSDfor = [];
-for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
-console.log(movementsUSDfor);
-
-const movementsDescriptions = movements.map(
-  (mov, i) => 
-  // SIN RETURN. SIN " ; "
+  //   return mov * eurToUsd;
+  // });
+  const movementsUSD = movements.map(mov => mov * eurToUsd);
+  console.log(movements);
+  console.log(movementsUSD);
+  
+  // I D E M
+  const movementsUSDfor = [];
+  for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
+  console.log(movementsUSDfor);
+  
+  const movementsDescriptions = movements.map(
+    (mov, i) => 
+    // SIN RETURN. SIN " ; "
     `Movement ${i + 1}: You ${mov > 0 ? "deposited" : "withdrew"} ${Math.abs(mov)}`
-);
-// Devuelve array de strings
-console.log(movementsDescriptions);
+    );
+    // Devuelve array de strings
+    console.log(movementsDescriptions);
+    */
