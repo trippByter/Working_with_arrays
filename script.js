@@ -94,16 +94,15 @@ const inputClosePin = document.querySelector('.form__input--pin');
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
       C H A L L E N G U E
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
-*/
 
 const checkDogs = function(dogsJulia, dogsKate) {
   const dogsJuliaCorrected = dogsJulia.slice();
   dogsJuliaCorrected.splice(0, 1);
   dogsJuliaCorrected.splice(-2);
-
+  
   const dogs = dogsJuliaCorrected.concat(dogsKate);
   console.log(dogs);
-
+  
   dogs.forEach(function(dog, i){
     if(dog >= 3){
       console.log(`Dog number ${i + 1} is an adult, and is ${dog} years old`);
@@ -114,6 +113,7 @@ const checkDogs = function(dogsJulia, dogsKate) {
 };
 // checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
 checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
+*/
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -278,4 +278,41 @@ console.log(currenciesUnique);
 currenciesUnique.forEach(function(value, key, map){
   console.log(`${key}: ${value}`); // Iteraciones de string
 });
-  */
+*/
+
+
+/*
++*+*+*+*+*+*+*+*+*+*+*+*+*
+      I N M U T A B L E 
+            M A P
++*+*+*+*+*+*+*+*+*+*+*+*+*
+Con MAP creamos un array con una sola función
+Con FOR, TENEMOS que, antes, crear el array
+Son diferentes filosofías o paradigmas
+MAP es más de programación funcional
+*/
+
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const eurToUsd = 1.1;
+
+// const movementsUSD = movements.map(function(mov){
+//   return mov * eurToUsd;
+// });
+const movementsUSD = movements.map(mov => mov * eurToUsd);
+console.log(movements);
+console.log(movementsUSD);
+
+// I D E M
+const movementsUSDfor = [];
+for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
+console.log(movementsUSDfor);
+
+const movementsDescriptions = movements.map(
+  (mov, i) => 
+  // SIN RETURN. SIN " ; "
+    `Movement ${i + 1}: You ${mov > 0 ? "deposited" : "withdrew"} ${Math.abs(mov)}`
+);
+// Devuelve array de strings
+console.log(movementsDescriptions);
