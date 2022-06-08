@@ -95,9 +95,43 @@ displayMovements(account1.movements);
 // Actualización de balance de "account1"
 const calcDisplayBalance = function(movements){
   const balance = movements.reduce((acc, mov) => acc + mov, 0)
-  labelBalance.textContent = `${balance} EUR`
+  labelBalance.textContent = `${balance}€`
 };
 calcDisplayBalance(account1.movements);
+
+
+// Actualizamos los resumen en el final
+// de la página 
+const calcDisplaySummary = function(movements){
+  // IN
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;  // Añadimos al html
+
+  // OUT
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  // INTERESED - Hipoteticamente el banco paga por cada deposito
+  // Una regla indica que se paga interés, solo si 
+  // ese interés es mayor a uno
+  const interesed = movements
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * 1.2/100) // 1.2%
+    .filter((int, i ,arr) => {
+      // console.log(arr); // vemos en el array que hay uno menor a uno
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interesed}€`;
+  
+
+
+};
+calcDisplaySummary(account1.movements)
 
 const createUserNames =  (accs) => {
   accs.forEach((acc) => {
@@ -431,7 +465,6 @@ console.log(max);
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
 TEST DATA 1: [5, 2, 4, 1, 15, 8, 3]
 TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
-*/
 
 // Pasamos array de edades de perros y las 
 // transformamos a edades humanas
@@ -448,3 +481,34 @@ const calcAverageHumanAge = function(ages){
 const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
 const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
 console.log(avg1, avg2);
+*/
+
+/*
++*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+      C H A I N I N G 
+       M E T H O D S
++*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+NO ABUSAR DEL CHAINING METHOD
+EVITAR USARLOS CON MÉTODOS MUTABLES
+Sólo podemos encadenar métodos 
+si el anterior devuelve un array
+
+
+// PIPELINE
+// Obtenemos depositos en dolares usando "filter",
+// "map", "reduce" en una sola variable
+const eurToUsd = 1.1;
+console.log(movements);
+const totalDepositUSD = movements
+// Debugging method only
+// .filter(mov => mov > 0) // Resultado negativo
+// .map((mov, i, arr) => { 
+//   console.log(arr); // Visualizamos array en cada iteración
+//   return mov * eurToUsd;
+// })
+// .reduce((acc, mov) => acc + mov, 0); 
+.filter(mov => mov > 0) // depositos - []
+.map(mov => mov * eurToUsd) // conv. dólares - []
+.reduce((acc, mov) => acc + mov, 0); // sumar todo - Number
+console.log(totalDepositUSD);
+*/
