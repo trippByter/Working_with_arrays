@@ -476,7 +476,7 @@ const calcAverageHumanAge = function(ages){
   console.log(adults);
   // Calulamos la media(average)
   const average = adults.reduce((acc, age, i, arr) => acc + age  / arr.length, 0); 
-  return average
+  return average;
 };
 const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
 const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
@@ -512,3 +512,23 @@ const totalDepositUSD = movements
 .reduce((acc, mov) => acc + mov, 0); // sumar todo - Number
 console.log(totalDepositUSD);
 */
+
+
+/*
++*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+    C H A L L E N G U E  N°3
++*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
+Reescribir "calcAverageHumanAge" del challengue N°2,
+en una arrow function usando chaining method
+TEST DATA 1: [5, 2, 4, 1, 15, 8, 3]
+TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
+*/
+const calcAverageHumanAge = ages =>
+  ages  
+    .map(age => age <= 2 ? 2* age : 16 + age * 4)
+    .filter(age => age >= 18)
+    .reduce((acc, age, i, arr) => acc + age  / arr.length, 0);
+
+const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+console.log(avg1, avg2);
