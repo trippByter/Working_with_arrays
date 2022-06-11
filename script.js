@@ -61,6 +61,10 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+
+//==============================================//
+//=============DISPLAY MOVEMENTS================//
+//==============================================//
 // BUENA PRÁCTICA TRABAJAR LAS VARIABLES GLOBALES,
 // PASADAS COMO DATOS DE UNA FUNCION Y NO 
 // DE MANERA DIRECTA
@@ -83,34 +87,42 @@ const displayMovements = function(movements){
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-      <div class="movements__value">${mov}</div>
+      <div class="movements__value">${mov}€</div>
     </div>
     `;
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
 };
-displayMovements(account1.movements);
+//==============================================//
+//===========END DISPLAY MOVEMENTS==============//
+//==============================================//
 
 
+//==============================================//
+//==============DISPLAY BALANCE=================//
+//==============================================//
 // Actualización de balance de "account1"
 const calcDisplayBalance = function(movements){
   const balance = movements.reduce((acc, mov) => acc + mov, 0)
   labelBalance.textContent = `${balance}€`
 };
-calcDisplayBalance(account1.movements);
+//==============================================//
+//============END DISPLAY BALANCE===============//
+//==============================================//
 
 
-// Actualizamos los resumen en el final
-// de la página 
-const calcDisplaySummary = function(movements){
+//==============================================//
+//=======UPDATE SUMMARIES IN THE ENDPAGE========//
+//==============================================//
+const calcDisplaySummary = function(acc){
   // IN
-  const incomes = movements
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}€`;  // Añadimos al html
 
   // OUT
-  const out = movements
+  const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(out)}€`;
@@ -118,21 +130,24 @@ const calcDisplaySummary = function(movements){
   // INTERESED - Hipoteticamente el banco paga por cada deposito
   // Una regla indica que se paga interés, solo si 
   // ese interés es mayor a uno
-  const interesed = movements
+  const interesed = acc.movements
     .filter(mov => mov > 0)
-    .map(deposit => deposit * 1.2/100) // 1.2%
+    .map(deposit => (deposit * acc.interestRate) / 100) // 1.2%
     .filter((int, i ,arr) => {
       // console.log(arr); // vemos en el array que hay uno menor a uno
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interesed}€`;
-  
-
-
 };
-calcDisplaySummary(account1.movements)
+//==============================================//
+//=====END UPDATE SUMMARIES IN THE ENDPAGE======//
+//==============================================//
 
+
+//==============================================//
+//=============CREATE USER NAMES================//
+//==============================================//
 const createUserNames =  (accs) => {
   accs.forEach((acc) => {
     acc.username = acc.owner
@@ -143,7 +158,54 @@ const createUserNames =  (accs) => {
   });
 }; 
 createUserNames(accounts);
+//==============================================//
+//===========END CREATE USER NAMES==============//
+//==============================================//
 
+
+//==============================================//
+//=================LOGIN FORM===================//
+//==============================================//
+
+// Define this let, outside function to
+// later use from other functions
+// with current account.
+let currentAccount;
+
+btnLogin.addEventListener("click", function(e){
+  // Prevent form from submitting
+  // and we can see the console.log
+  e.preventDefault();
+  // console.log("Imaynallan login");
+  // Here we check if name is username is correct
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+  // console.log(currentAccount);
+  // Here we check if name is username is correct
+  if(currentAccount?.pin === Number(inputLoginPin.value)){
+    // Display UI and change the "Log in to get started"
+    // for welcome message with user first name.
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
+    // Show the "user home" -> containerApp
+    containerApp.style.opacity = 100;
+    
+    // Clear inputs fields after login
+    inputLoginUsername.value = inputLoginPin.value = "";
+    // Quit cursor in inputs
+    inputLoginPin.blur();
+
+    // Display movements
+    displayMovements(currentAccount.movements);
+    
+    // Display movement's balance
+    calcDisplayBalance(currentAccount.movements);
+
+    // Display movement's summary
+    calcDisplaySummary(currentAccount);
+  };
+});
+//==============================================//
+//===============END LOGIN FORM=================//
+//==============================================//
 
 /*
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
@@ -542,8 +604,6 @@ thats sastisfies a condition.
 Accept a condition, and callback function,
 which will then be called as the method loops
 over the array
-*/
-
 
 const firstWithdrawal = movements.find(mov => mov < 0);
 console.log(movements);
@@ -552,3 +612,4 @@ console.log(firstWithdrawal); // Num -400
 const account = accounts.find(acc => acc.owner === "Jessica Davis");
 console.log(accounts);
 console.log(account); // Object {owner:"Jessica Davis"...}
+*/
