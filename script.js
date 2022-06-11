@@ -101,10 +101,12 @@ const displayMovements = function(movements){
 //==============================================//
 //==============DISPLAY BALANCE=================//
 //==============================================//
-// Actualización de balance de "account1"
-const calcDisplayBalance = function(movements){
-  const balance = movements.reduce((acc, mov) => acc + mov, 0)
-  labelBalance.textContent = `${balance}€`
+// Actualización de balance de "account1".
+// We pass the complete account the function.
+//  After that,we take the movements.
+const calcDisplayBalance = function(acc){
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
 };
 //==============================================//
 //============END DISPLAY BALANCE===============//
@@ -164,9 +166,26 @@ createUserNames(accounts);
 
 
 //==============================================//
-//=================LOGIN FORM===================//
+//=================UPDATE UI====================//
+//==============================================//
+const updateUI = function(acc){
+  // Display movements
+  displayMovements(acc.movements);
+    
+  // Display movement's balance
+  calcDisplayBalance(acc);
+
+  // Display movement's summary
+  calcDisplaySummary(acc);
+}
+//==============================================//
+//==============END UPDATE UI===================//
 //==============================================//
 
+
+//==============================================//
+//=================LOGIN FORM===================//
+//==============================================//
 // Define this let, outside function to
 // later use from other functions
 // with current account.
@@ -193,19 +212,48 @@ btnLogin.addEventListener("click", function(e){
     // Quit cursor in inputs
     inputLoginPin.blur();
 
-    // Display movements
-    displayMovements(currentAccount.movements);
-    
-    // Display movement's balance
-    calcDisplayBalance(currentAccount.movements);
+    // Update UI with user data after login
+    updateUI(currentAccount);
 
-    // Display movement's summary
-    calcDisplaySummary(currentAccount);
+    
   };
 });
 //==============================================//
 //===============END LOGIN FORM=================//
 //==============================================//
+
+
+//==============================================//
+//=============TRANSFERS FORM===================//
+//==============================================//
+btnTransfer.addEventListener("click", function(e){
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  // Find the receiver account by user name
+  const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+  // console.log(amount, receiverAcc);
+  inputTransferAmount.value = inputTransferTo.value = "";
+  // Quit cursor in inputs
+  inputTransferAmount.blur();
+
+  if(
+    amount > 0 && 
+    receiverAcc && 
+    currentAccount.balance >= amount && 
+    receiverAcc?.username !== currentAccount.username
+  ){
+    // console.log("Transfer valid")
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+    // Update UI with user data after transfer
+    updateUI(currentAccount);
+  };
+});
+//==============================================//
+//=============END TRANSFERS FORM===============//
+//==============================================//
+
 
 /*
 +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
